@@ -1,0 +1,30 @@
+<script>
+
+	import Navbar from './components/Navbar.html';
+	import SearchBar from './components/SearchBar.html';
+	import List from './components/List.html';
+
+	let search = ""
+	let array = []
+
+	const handleSubmit = () => {
+		
+		const newTodo = {
+			todo: search,
+			completed: false
+		}
+
+		array = [...array, newTodo]
+		search = ""
+	
+	}
+
+	const test = () => {
+		console.log(search)
+	}
+
+</script>
+
+<Navbar />
+<SearchBar bind:search={search} on:submit={handleSubmit}/>
+<List array={array} />

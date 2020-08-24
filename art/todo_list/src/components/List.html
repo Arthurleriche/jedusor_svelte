@@ -1,0 +1,18 @@
+<script>
+    export let array
+    
+    const click = () => {
+        console.log(array)
+    }
+</script>
+
+{#if array < 1}
+<p>je n'ai pas encore de list</p>
+{/if}
+
+
+<ul>
+    {#each array as todo}
+    <li> * {todo.todo} * </li>
+    {/each}
+</ul>
