@@ -1,18 +1,39 @@
 <script>
-    export let array
-    
-    const click = () => {
-        console.log(array)
+    export let tasks
+    export let category
+
+    $: array = tasks.filter(t => t.category == category)
+
+    const test = () => {
+        console.log(tasks);
+        console.log(category)
     }
+
 </script>
 
-{#if array < 1}
+{#if tasks < 1}
 <p>je n'ai pas encore de list</p>
 {/if}
 
 
-<ul>
-    {#each array as todo}
-    <li> * {todo.todo} * </li>
-    {/each}
-</ul>
+
+<div class="border-solid border-4 border-gray-600">
+    
+    <div>
+        <h2 class="text-center p-8">{category}</h2>
+    </div>
+    
+    <div class="text-center">
+        <ul>
+            {#each array as task}
+            <li class="pb-4">
+                <input type="checkbox" checked={task.completed}>
+                * {task.todo} * 
+                from category: {task.category} <br>
+                add at: {task.date}
+                <span><button>supprimer</button></span>
+            </li>
+            {/each}
+        </ul>   
+    </div>
+</div>

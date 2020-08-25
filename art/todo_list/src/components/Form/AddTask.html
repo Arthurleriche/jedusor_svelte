@@ -1,0 +1,39 @@
+<script>
+    import { createEventDispatcher } from 'svelte';
+    
+    import Categories from './Categories.html'
+
+    const dispatch = createEventDispatcher();
+
+    let search = "";
+    let category = "Home"
+    
+
+    function submitText() {
+       
+        dispatch('submit', {
+            
+            wesh: search,
+            cate: category,
+            date: new Date()
+        
+        });
+        
+        search = "";
+    }
+
+    const newCategory = (event) => {
+       
+        category = event.detail.selectCategory.name
+    
+    }
+
+</script>
+
+<!-- fin du script -->
+
+<div class="justify-center">
+    <Categories on:addCategory={newCategory}/>
+    <input class="w-full" type="text" bind:value={search} placeholder="Add a task">
+    <button class="w-full"  on:click={submitText}>Add a task</button>
+</div>

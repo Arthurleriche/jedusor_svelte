@@ -1,0 +1,43 @@
+<script>
+    
+    import {createEventDispatcher} from "svelte";
+
+    const dispatch = createEventDispatcher();
+
+    let categories = [
+        {
+            name: "Home"
+        }, 
+        {
+            name: "Work"
+        },
+        {
+            name: "Hobbies"
+        },
+    ];
+    
+    let category;
+
+    const addCategory = () => {
+        
+        dispatch("addCategory", {
+           
+            selectCategory: category
+        
+        });
+    
+    };
+
+</script>
+
+<!-- fin du script -->
+
+<form action="">
+    <select class="w-full" bind:value={category} on:change|preventDefault={addCategory}>
+        {#each categories as category}
+        <option value={category}>
+            {category.name}
+        </option>
+        {/each}
+    </select>
+</form>
