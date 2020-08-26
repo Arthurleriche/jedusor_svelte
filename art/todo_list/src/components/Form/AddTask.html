@@ -35,5 +35,5 @@
 <div class="justify-center">
     <Categories on:addCategory={newCategory}/>
     <input class="w-full" type="text" bind:value={search} placeholder="Add a task">
-    <button class="w-full"  on:click={submitText}>Add a task</button>
+    <button class="w-full"  on:click|preventDefault={submitText}>Add a task</button>
 </div>

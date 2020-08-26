@@ -3,8 +3,8 @@
 	import Navbar from './components/Navbar.html';
 	import AddTask from './components/Form/AddTask.html';
 	import List from './components/List.html';
-
 	$: tasks = [
+	
 		{
 			category: "Work",
 			todo: "todo 1",
@@ -24,6 +24,8 @@
 			date: new Date()
 		},
 	]
+	$: filteredTasks =  tasks.filter(t =>  t.completed === false)
+	let active = false
 
 	const handleSubmit = (event) => {
 
@@ -32,18 +34,32 @@
 			alert("Please add a task")
 
 		} else {
-			
+
 			const newTodo = {
 				
 				category: event.detail.cate,
 				todo: event.detail.wesh,
-				completed: false
+				completed: false,
+				date: new Date()
 			
 			}
 
 			tasks = [...tasks, newTodo]
 		
 		}
+
+	}
+
+	const handleDelete = (task) => {
+		
+		tasks = tasks.filter(t => t !== task.detail.task)
+	
+	}
+
+	const allTasks = () => {
+		
+		active = !active
+		filteredTasks =  tasks.filter(t =>  t.completed === false)
 
 	}
 
@@ -56,7 +72,9 @@
 <AddTask on:submit={handleSubmit}/>
 
 <div class="flex justify-between">
-	<List tasks={tasks} category="Work"/>
-	<List tasks={tasks} category="Hobbies"/>
-	<List tasks={tasks} category="Home"/>
+	<List tasks={active ? filteredTasks : tasks} category="Work" on:delete={handleDelete} />
+	<List tasks={active ? filteredTasks : tasks} category="Hobbies" on:delete={handleDelete} />
+	<List tasks={active ? filteredTasks : tasks} category="Home" on:delete={handleDelete} />
 </div>
+
+<button on:click={allTasks}>See all {active ? "all" : "uncompleted"} task</button>

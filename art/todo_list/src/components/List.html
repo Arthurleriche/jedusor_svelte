@@ -2,6 +2,10 @@
     export let tasks
     export let category
 
+    import { createEventDispatcher } from 'svelte';
+    
+    const dispatch = createEventDispatcher();
+
     $: array = tasks.filter(t => t.category == category)
 
     const test = () => {
@@ -9,31 +13,62 @@
         console.log(category)
     }
 
+    const deleteTask = (todo) => {
+        dispatch('delete', {
+            task: todo
+        })
+    }
+
 </script>
+
+<style>
+    .validate{
+        color: green;
+    }
+
+    .unvalidated{
+        color: red;
+        background-color: red;
+    }
+</style>
+
+<!-- fin du script -->
 
 {#if tasks < 1}
 <p>je n'ai pas encore de list</p>
 {/if}
 
-
-
-<div class="border-solid border-4 border-gray-600">
+<div class="border-solid border-4 border-gray-600 mt-8 bg-gradient-to-r from-teal-400 to-blue-500 ">
     
     <div>
-        <h2 class="text-center p-8">{category}</h2>
+        <h2 class="text-center p-8 font-mono">{category}</h2>
     </div>
     
-    <div class="text-center">
+    <div class="text-center bg-gradient-to-r from-teal-400 to-blue-200">
         <ul>
             {#each array as task}
             <li class="pb-4">
-                <input type="checkbox" checked={task.completed}>
-                * {task.todo} * 
-                from category: {task.category} <br>
-                add at: {task.date}
-                <span><button>supprimer</button></span>
+                <input type="checkbox" bind:checked={task.completed}>
+                {#if !task.completed}
+                    <div class="text-red-600">
+                        <p>* {task.todo} * </p>
+                        <p>from category: {task.category}</p>
+                        <br>
+                        <p>add at: {task.date}</p> 
+                    </div>
+                {:else}
+                    <div class="text-green-600">
+                        <p>* {task.todo} * </p>
+                        <p>from category: {task.category}</p>
+                        <br>
+                        <p>add at: {task.date}</p> 
+                    </div>
+                {/if}
+                <span><button on:click|preventDefault={() => deleteTask(task)}>supprimer</button></span>
             </li>
             {/each}
         </ul>   
     </div>
 </div>
+
+<!-- {JSON.stringify(array)} -->
