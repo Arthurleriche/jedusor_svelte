@@ -86,6 +86,12 @@
 
 <!-- fin du script -->
 
+<style>
+	button{
+		background-color: #1B9AAA;
+	}
+</style>
+
 <Navbar />
 
 
@@ -94,11 +100,8 @@
 	<List tasks={active ? filteredTasks : tasks} category="Hobbies" on:delete={handleDelete} giphy={giphy.hobbies}/>
 	<List tasks={active ? filteredTasks : tasks} category="Home" on:delete={handleDelete} giphy={giphy.home}/>
 </div>
-
-
-
+<button class="w-full" on:click={allTasks}>See all {active ? "all" : "uncompleted"} task</button>
 
 <div>
-<AddTask on:submit={handleSubmit}/>
+	<AddTask on:submit={handleSubmit}/>
 </div>
-<button on:click={allTasks}>See all {active ? "all" : "uncompleted"} task</button>
