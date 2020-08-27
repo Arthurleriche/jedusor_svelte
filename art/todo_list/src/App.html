@@ -3,29 +3,42 @@
 	import Navbar from './components/Navbar.html';
 	import AddTask from './components/Form/AddTask.html';
 	import List from './components/List.html';
+
+	const date = new Date();
+	const m = date.getMinutes();
+	const h = date.getHours();
+	const s = date.getSeconds();
+	const hours = `${h}:${m}:${s}`
+
 	$: tasks = [
 	
 		{
 			category: "Work",
-			todo: "todo 1",
+			todo: "Faire le trello de la journée",
 			completed: false,
-			date: new Date() 
+			date: hours
 		},
 		{
 			category: "Home",
-			todo: "todo 2", 
+			todo: "Faire le lit en partant", 
 			completed: true,
-			date: new Date()
+			date: hours
 		},
 		{
 			category: "Hobbies",
-			todo: "todo 3", 
+			todo: "Dire bonjour à Mr Canvas", 
 			completed: false,
-			date: new Date()
+			date: hours
 		},
 	]
-	$: filteredTasks =  tasks.filter(t =>  t.completed === false)
-	let active = false
+	$: filteredTasks =  tasks.filter(t =>  t.completed === false);
+	let active = false;
+	let giphy = {
+			work: "https://media.giphy.com/media/JpFZBAXIwJKHTY4zDQ/giphy.gif",
+			hobbies: "https://media.giphy.com/media/dZdw9Z08nqTJbfuSyC/giphy.gif",
+			home: "https://media.giphy.com/media/XgRfUmFJ2eSCN5514b/giphy.gif",
+	}
+	
 
 	const handleSubmit = (event) => {
 
@@ -35,12 +48,17 @@
 
 		} else {
 
+			const date = new Date();
+			const h = date.getHours();
+			const m = date.getMinutes();
+			const s = date.getSeconds();
+			const hour = `${h}:${m}:${s}`
 			const newTodo = {
 				
 				category: event.detail.cate,
 				todo: event.detail.wesh,
 				completed: false,
-				date: new Date()
+				date: hour
 			
 			}
 
@@ -63,18 +81,24 @@
 
 	}
 
+
 </script>
 
 <!-- fin du script -->
 
 <Navbar />
 
-<AddTask on:submit={handleSubmit}/>
 
-<div class="flex justify-between">
-	<List tasks={active ? filteredTasks : tasks} category="Work" on:delete={handleDelete} />
-	<List tasks={active ? filteredTasks : tasks} category="Hobbies" on:delete={handleDelete} />
-	<List tasks={active ? filteredTasks : tasks} category="Home" on:delete={handleDelete} />
+<div class="flex justify-around">
+	<List tasks={active ? filteredTasks : tasks} category="Work" on:delete={handleDelete} giphy={giphy.work}/>
+	<List tasks={active ? filteredTasks : tasks} category="Hobbies" on:delete={handleDelete} giphy={giphy.hobbies}/>
+	<List tasks={active ? filteredTasks : tasks} category="Home" on:delete={handleDelete} giphy={giphy.home}/>
 </div>
 
+
+
+
+<div>
+<AddTask on:submit={handleSubmit}/>
+</div>
 <button on:click={allTasks}>See all {active ? "all" : "uncompleted"} task</button>

@@ -1,8 +1,10 @@
 <script>
-    export let tasks
-    export let category
+    export let tasks;
+    export let category;
+    export let giphy;
 
     import { createEventDispatcher } from 'svelte';
+    import { fly } from 'svelte/transition';;
     
     const dispatch = createEventDispatcher();
 
@@ -19,49 +21,73 @@
         })
     }
 
+    let gif = giphy
+
+
+    const handleChangeHour = (todo) => {
+        
+        const now = new Date();
+			const h = now.getHours();
+			const m = now.getMinutes();
+			const s = now.getSeconds();
+			const hour = `${h}:${m}:${s}`
+        todo.date = hour
+    
+    }
+
 </script>
 
+
+
 <style>
-    .validate{
-        color: green;
+    .categorie{
+        
+        background-image:url({gif});
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center;
+        height: 50vh;
+        width: 300px;
+        border-radius: 50%
+    
     }
 
-    .unvalidated{
-        color: red;
-        background-color: red;
+    h2{
+
+        font-size: 4em;
+        color: #1B9AAA;
+
     }
+
+    .list{
+
+        background-color: #F5F1E3;
+
+    }
+    
 </style>
 
-<!-- fin du script -->
-
-{#if tasks < 1}
-<p>je n'ai pas encore de list</p>
-{/if}
-
-<div class="border-solid border-4 border-gray-600 mt-8 bg-gradient-to-r from-teal-400 to-blue-500 ">
+<div class="mt-12 container m-4 rounded-md list shadow-md " transition:fly="{{ y: 200, duration: 2000 }}">
     
-    <div>
-        <h2 class="text-center p-8 font-mono">{category}</h2>
-    </div>
     
-    <div class="text-center bg-gradient-to-r from-teal-400 to-blue-200">
-        <ul>
+    <h2 class="text-center font-mono">{category}</h2>
+    
+    <div class="categorie m-auto mb-12" style="background-image:url({gif})"></div>
+    
+    <div class="text-center">
+        <ul transition:fly="{{ y: 200, duration: 2000 }}">
             {#each array as task}
-            <li class="pb-4">
-                <input type="checkbox" bind:checked={task.completed}>
+            <li class="pb-4" transition:fly="{{ y: 200, duration: 2000 }}">
+                <input type="checkbox" bind:checked={task.completed} on:click={() => {handleChangeHour(task)}}>
                 {#if !task.completed}
-                    <div class="text-red-600">
-                        <p>* {task.todo} * </p>
-                        <p>from category: {task.category}</p>
-                        <br>
-                        <p>add at: {task.date}</p> 
+                    <div class="text-red-600" >
+                        <p>* {task.todo} * </p>                           
+                        <p>add task at: {task.date}</p> 
                     </div>
                 {:else}
                     <div class="text-green-600">
-                        <p>* {task.todo} * </p>
-                        <p>from category: {task.category}</p>
-                        <br>
-                        <p>add at: {task.date}</p> 
+                        <p>* {task.todo} * </p>     
+                        <p>do since: {task.date}</p> 
                     </div>
                 {/if}
                 <span><button on:click|preventDefault={() => deleteTask(task)}>supprimer</button></span>
