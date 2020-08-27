@@ -1,8 +1,13 @@
 <script>
 
+	import Sortable from 'sortablejs';
 	import Navbar from './components/Navbar.html';
 	import AddTask from './components/Form/AddTask.html';
 	import List from './components/List.html';
+
+	const el = document.getElementById('items');
+// 	new Sortable(el, {
+// });
 
 	const date = new Date();
 	const m = date.getMinutes();
@@ -10,12 +15,30 @@
 	const s = date.getSeconds();
 	const hours = `${h}:${m}:${s}`
 
+	$: show = {
+		work: true,
+		hobbies: true,
+		home: true
+	}
+
 	$: tasks = [
 	
 		{
 			category: "Work",
 			todo: "Faire le trello de la journée",
 			completed: false,
+			date: hours
+		},
+		{
+			category: "Work",
+			todo: "Faire le trello de la journée",
+			completed: false,
+			date: hours
+		},
+		{
+			category: "Home",
+			todo: "Faire le lit en partant", 
+			completed: true,
 			date: hours
 		},
 		{
@@ -30,7 +53,15 @@
 			completed: false,
 			date: hours
 		},
+		{
+			category: "Hobbies",
+			todo: "Dire bonjour à Mr Canvas", 
+			completed: false,
+			date: hours
+		},
+
 	]
+
 	$: filteredTasks =  tasks.filter(t =>  t.completed === false);
 	let active = false;
 	let giphy = {
@@ -81,26 +112,31 @@
 
 	}
 
+	const showTasks = (list) => {
+		show.list = !show.list
+	}
 
 </script>
 
-<!-- fin du script -->
-
 <style>
+	
 	button{
-		background-color: #1B9AAA;
+		background-color: #DDDBCB;
 	}
+
 </style>
 
 <Navbar />
 
-
 <div class="flex justify-around">
-	<List tasks={active ? filteredTasks : tasks} category="Work" on:delete={handleDelete} giphy={giphy.work}/>
-	<List tasks={active ? filteredTasks : tasks} category="Hobbies" on:delete={handleDelete} giphy={giphy.hobbies}/>
-	<List tasks={active ? filteredTasks : tasks} category="Home" on:delete={handleDelete} giphy={giphy.home}/>
+	<List tasks={active ? filteredTasks : tasks} category="Work" on:delete={handleDelete} giphy={giphy.work} show={show.work}/>
+	<List tasks={active ? filteredTasks : tasks} category="Hobbies" on:delete={handleDelete} giphy={giphy.hobbies} show={show.hobbies}/>
+	<List tasks={active ? filteredTasks : tasks} category="Home" on:delete={handleDelete} giphy={giphy.home} show={show.home}/>
 </div>
-<button class="w-full" on:click={allTasks}>See all {active ? "all" : "uncompleted"} task</button>
+
+<div class="flex justify-center">
+	<button class="w-4/5 m-4" shadow-2xl on:click={allTasks}>See all {active ? "all" : "uncompleted"} task</button>
+</div>
 
 <div>
 	<AddTask on:submit={handleSubmit}/>

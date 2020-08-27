@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "sirv-cli": "^1.0.0",
+    "sortablejs": "^1.10.2",
     "tailwindcss": "^1.7.3"
   }
 }
