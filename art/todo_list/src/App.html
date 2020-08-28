@@ -5,10 +5,6 @@
 	import AddTask from './components/Form/AddTask.html';
 	import List from './components/List.html';
 
-	const el = document.getElementById('items');
-// 	new Sortable(el, {
-// });
-
 	const date = new Date();
 	const m = date.getMinutes();
 	const h = date.getHours();
@@ -31,19 +27,19 @@
 		},
 		{
 			category: "Work",
-			todo: "Faire le trello de la journée",
+			todo: "Finir le bak",
 			completed: false,
 			date: hours
 		},
 		{
 			category: "Home",
-			todo: "Faire le lit en partant", 
+			todo: "Faire des courses", 
 			completed: true,
 			date: hours
 		},
 		{
 			category: "Home",
-			todo: "Faire le lit en partant", 
+			todo: "Ranger les courses", 
 			completed: true,
 			date: hours
 		},
@@ -55,7 +51,7 @@
 		},
 		{
 			category: "Hobbies",
-			todo: "Dire bonjour à Mr Canvas", 
+			todo: "Tecla un doobie", 
 			completed: false,
 			date: hours
 		},
@@ -141,3 +137,5 @@
 <div>
 	<AddTask on:submit={handleSubmit}/>
 </div>
+
+<!-- {JSON.stringify()} -->
